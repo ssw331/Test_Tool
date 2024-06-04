@@ -18,6 +18,9 @@ const router = useRouter();
             <a-menu-item>
               <router-link to="/exec/calender">Calender</router-link>
             </a-menu-item>
+            <a-menu-item>
+              <router-link to="/exec/telecom">Telecom</router-link>
+            </a-menu-item>
           </a-menu>
         </template>
       </a-breadcrumb-item>
@@ -27,6 +30,9 @@ const router = useRouter();
       </a-breadcrumb-item>
       <a-breadcrumb-item v-if="router.currentRoute.value.name === 'Calender'">
         Calender
+      </a-breadcrumb-item>
+      <a-breadcrumb-item v-if="router.currentRoute.value.name === 'Telecom'">
+        Telecom
       </a-breadcrumb-item>
     </a-breadcrumb>
 </template>

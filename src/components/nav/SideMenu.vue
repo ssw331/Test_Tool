@@ -30,6 +30,7 @@ const items: ItemType[] = reactive([
   getItem('课程练习', '/exec', () => h(MailOutlined), [
     getItem('三角形', '/exec/triangle'),
     getItem('万年历', '/exec/calender'),
+    getItem('电信收费', '/exec/telecom'),
   ]),
 ])
 
