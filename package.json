@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
     "ant-design-vue": "^4.2.1",
+    "echarts": "^5.5.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.2"
   },
@@ -20,6 +21,8 @@
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.6.0",
+    "highlight.js": "^11.9.0",
+    "naive-ui": "^2.38.2",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vitest": "^1.6.0",

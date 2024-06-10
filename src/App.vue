@@ -15,7 +15,7 @@ const collapsed = ref<boolean>(false)
     <a-layout-sider :collapsed="collapsed" :trigger="null" style="width: auto; height: auto; background-color: white" collapsible>
       <SideMenu/>
     </a-layout-sider>
-    <a-layout style="height: 100%;">
+    <a-layout style="height: auto;">
       <a-layout-header style="padding: 0; background-color: white; height: 3rem; align-content: center">
         <a-row style="height: 100%;">
           <a-col :span="1" class="logo">
@@ -34,7 +34,6 @@ const collapsed = ref<boolean>(false)
       <a-layout-content>
         <router-view/>
       </a-layout-content>
-      <a-layout-footer></a-layout-footer>
     </a-layout>
   </a-layout>
 </template>

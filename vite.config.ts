@@ -6,7 +6,10 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
     plugins: [vue()],
     test: {
-        reporters: ['html'],
+        reporters: ['html', 'json'],
+        outputFile: {
+            json: 'js-report.json'
+        },
         coverage: {
             reporter: ['html']
         }
