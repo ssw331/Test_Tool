@@ -32,7 +32,7 @@ const collapsed = ref<boolean>(false)
         </a-row>
       </a-layout-header>
       <a-layout-content>
-        <router-view/>
+        <router-view />
       </a-layout-content>
     </a-layout>
   </a-layout>

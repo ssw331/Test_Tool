@@ -3,7 +3,9 @@ import HelloWorld from "../components/HelloWorld.vue";
 import Triangle from "../components/exec/Triangle.vue";
 import Calender from "../components/exec/Calender.vue";
 import Telecom from "../components/exec/Telecom.vue";
+// import Pannel from "../components/PannelTemplate.vue";
 import Pannel from "../components/Pannel.vue";
+import DefaultOne from "../components/exec/DefaultOne.vue";
 
 const routes = [
     {
@@ -16,6 +18,11 @@ const routes = [
         name: 'Exec',
         component: Pannel,
         children: [
+            {
+                path: '',
+                name: 'Default',
+                component: DefaultOne,
+            },
             {
                 path: 'triangle',
                 name: 'Triangle',
