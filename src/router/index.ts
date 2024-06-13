@@ -4,7 +4,7 @@ import Triangle from "../components/exec/Triangle.vue";
 import Calender from "../components/exec/Calendar.vue";
 import Telecom from "../components/exec/Telecom.vue";
 // import Pannel from "../components/PannelTemplate.vue";
-import Pannel from "../components/Pannel.vue";
+import Pannel from "../views/Pannel.vue";
 import DefaultOne from "../components/exec/DefaultOne.vue";
 
 const routes = [

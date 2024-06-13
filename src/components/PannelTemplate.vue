@@ -1,20 +1,19 @@
 <script setup lang="ts">
 
 import {reactive, ref} from "vue";
-import { NCode, NConfigProvider } from 'naive-ui'
+import {NCode, NConfigProvider} from 'naive-ui'
 import hljs from 'highlight.js/lib/core'
-import javascript from 'highlight.js/lib/languages/javascript'
-// import {expect, onTestFinished, TaskResult, test} from "vitest";
-// import {sum} from "../program/sum.ts";
+import typescript from 'highlight.js/lib/languages/typescript'
+import type {CascaderProps} from 'ant-design-vue';
 
 interface FormState {
   programVer: string;
   testCase: string;
 }
 
-hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage('typescript', typescript)
 
-const code = `function sum(a : number, b : number)
+let code = `function sum(a : number, b : number)
 {
     return a + b
 }
@@ -23,10 +22,29 @@ const code = `function sum(a : number, b : number)
 const props = defineProps({
   problem: String,
   versions: Array,
+  code: String,
+  testCases: Array,
 })
 
 // const testResult = ref<TaskResult>()
 
+let visible = ref<boolean>(false)
+
+const loading = ref<boolean>(false)
+const enterLoading = () => {
+  console.log(loading.value)
+  loading.value = true
+  setTimeout(() => {
+    loading.value = false;
+  }, 3000);
+};
+
+const tabListNoTitleByOne = [
+  {
+    key: 'problem',
+    tab: '问题描述',
+  },
+];
 const tabListNoTitle = [
   {
     key: 'problem',
@@ -41,37 +59,50 @@ const tabListNoTitle = [
     tab: '可视化',
   },
 ];
-
+const TestCases: CascaderProps['options'] = [
+  {
+    value: 'boundary',
+    label: '边界值',
+    children: [
+      {
+        value: 'foundational',
+        label: '基本边界值',
+      },
+      {
+        value: 'robust',
+        label: '健壮边界值',
+      },
+      {
+        value: 'worst',
+        label: '最坏边界值',
+      },
+    ],
+  },
+];
 const noTitleKey = ref('problem');
-
 const onTabChange = (value: string, type: string) => {
   console.log(value, type);
   if (type === 'noTitleKey') {
     noTitleKey.value = value;
   }
 };
-
 const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
+  labelCol: {span: 6},
+  wrapperCol: {span: 14},
 };
-
 const formState = reactive<FormState>({
   programVer: '',
   testCase: '',
 });
 const onFinish = (values: any) => {
   console.log('Success:', values);
-  // test("adds 1 + 2", async () => {
-  //   expect(sum(1, 2)).toBe(3)
-  //   onTestFinished((e) => {
-  //     testResult.value = e
-  //   })
-  // })
+  setTimeout(() => {
+    visible.value = true
+  }, 3000);
 };
-
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo);
+  visible.value = false
 };
 </script>
 
@@ -79,6 +110,52 @@ const onFinishFailed = (errorInfo: any) => {
   <a-row style="height: 90%;">
     <a-col :span="16">
       <a-card
+          v-if="!visible"
+          style="height: 100%; width: auto; margin: 5px 2px 5px 5px"
+          :tab-list="tabListNoTitleByOne"
+          :active-tab-key="noTitleKey"
+          @tabChange="(key: string) => onTabChange(key, 'noTitleKey')"
+      >
+        <p v-if="noTitleKey === 'problem'">
+          <a-card :bordered="false">
+            <template #title>
+              <slot name="header">
+                0.0 问题
+              </slot>
+            </template>
+            <p>
+              <slot name="sub-title">
+                问题描述 / 算法思想
+              </slot>
+            </p>
+            <p>
+              <slot name="detail">
+                so,so,so
+              </slot>
+            </p>
+            <p>
+              代码实现
+            </p>
+            <n-config-provider :hljs="hljs">
+              <n-code
+                  v-if="props.code === undefined || props.code.length === 0"
+                  :code="code"
+                  language="ts"
+                  show-line-numbers
+              ></n-code>
+              <n-code
+                  v-else
+                  :code="props.code"
+                  language="ts"
+                  show-line-numbers
+              ></n-code>
+            </n-config-provider>
+          </a-card>
+        </p>
+      </a-card>
+
+      <a-card
+          v-else
           style="height: 100%; width: auto; margin: 5px 2px 5px 5px"
           :tab-list="tabListNoTitle"
           :active-tab-key="noTitleKey"
@@ -86,20 +163,26 @@ const onFinishFailed = (errorInfo: any) => {
       >
         <p v-if="noTitleKey === 'problem'">
           {{ props.problem }}
-<!--          <router-view/>-->
+          <!--          <router-view/>-->
           <n-config-provider :hljs="hljs">
             <n-code
+                v-if="props.code === undefined || props.code.length === 0"
                 :code="code"
-                language="Javascript"
-                inline
+                language="ts"
+                show-line-numbers
+            ></n-code>
+            <n-code
+                v-else
+                :code="props.code"
+                language="ts"
+                show-line-numbers
             ></n-code>
           </n-config-provider>
         </p>
-        <p v-else-if="noTitleKey === 'result'"></p>
-        <p v-else-if="noTitleKey === 'visible'">project content</p>
-        <!--    <template #tabBarExtraContent>-->
-        <!--      <a href="#">More</a>-->
-        <!--    </template>-->
+        <p v-else-if="noTitleKey === 'result'">
+          <a-table />
+        </p>
+        <p v-else-if="noTitleKey === 'visible'"></p>
       </a-card>
     </a-col>
     <a-col :span="8">
@@ -122,9 +205,7 @@ const onFinishFailed = (errorInfo: any) => {
               :rules="[{ required: true, message: 'Please select program version!' }]"
           >
             <a-select v-model:value="formState.programVer" placeholder="Please select program version">
-<!--              <a-select-option value="0.0.1">{{  }}</a-select-option>-->
-<!--              <a-select-option value="0.0.2">0.0.2</a-select-option>-->
-              <a-select-option v-for="item in props.versions" :value="item">{{ item }}}</a-select-option>
+              <a-select-option v-for="item in props.versions" :value="item">{{ item }}</a-select-option>
             </a-select>
           </a-form-item>
           <b> 测试用例集 </b>
@@ -134,15 +215,21 @@ const onFinishFailed = (errorInfo: any) => {
               has-feedback
               :rules="[{ required: true, message: 'Please select test case!' }]"
           >
-            <a-select v-model:value="formState.testCase" placeholder="Please select test case">
-              <a-select-option value="china">China</a-select-option>
-              <a-select-option value="usa">U.S.A</a-select-option>
-            </a-select>
+            <a-cascader
+                v-if="props.testCases === undefined || props.testCases.length === 0"
+                v-model:value="formState.testCase"
+                :options="TestCases"
+            />
+            <a-cascader
+                v-else
+                v-model:value="formState.testCase"
+                :options="props.testCases"
+            />
           </a-form-item>
           <a-form-item
               style="justify-content: center; padding-top: 10px;"
           >
-            <a-button type="primary" html-type="submit">Submit</a-button>
+            <a-button type="primary" html-type="submit" @click="enterLoading" :loading="loading">Submit</a-button>
           </a-form-item>
         </a-form>
         <!--    <template #tabBarExtraContent>-->
