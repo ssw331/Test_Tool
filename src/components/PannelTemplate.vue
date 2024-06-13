@@ -20,7 +20,7 @@ let code = `function sum(a : number, b : number)
 `
 
 const props = defineProps({
-  problem: String,
+  testResultUrl: String,
   versions: Array,
   code: String,
   testCases: Array,
@@ -162,25 +162,43 @@ const onFinishFailed = (errorInfo: any) => {
           @tabChange="(key: string) => onTabChange(key, 'noTitleKey')"
       >
         <p v-if="noTitleKey === 'problem'">
-          {{ props.problem }}
-          <!--          <router-view/>-->
-          <n-config-provider :hljs="hljs">
-            <n-code
-                v-if="props.code === undefined || props.code.length === 0"
-                :code="code"
-                language="ts"
-                show-line-numbers
-            ></n-code>
-            <n-code
-                v-else
-                :code="props.code"
-                language="ts"
-                show-line-numbers
-            ></n-code>
-          </n-config-provider>
+          <a-card :bordered="false">
+            <template #title>
+              <slot name="header">
+                0.0 问题
+              </slot>
+            </template>
+            <p>
+              <slot name="sub-title">
+                问题描述 / 算法思想
+              </slot>
+            </p>
+            <p>
+              <slot name="detail">
+                so,so,so
+              </slot>
+            </p>
+            <p>
+              代码实现
+            </p>
+            <n-config-provider :hljs="hljs">
+              <n-code
+                  v-if="props.code === undefined || props.code.length === 0"
+                  :code="code"
+                  language="ts"
+                  show-line-numbers
+              ></n-code>
+              <n-code
+                  v-else
+                  :code="props.code"
+                  language="ts"
+                  show-line-numbers
+              ></n-code>
+            </n-config-provider>
+          </a-card>
         </p>
         <p v-else-if="noTitleKey === 'result'">
-          <a-table />
+          <a-table/>
         </p>
         <p v-else-if="noTitleKey === 'visible'"></p>
       </a-card>
