@@ -3,6 +3,7 @@
 
 import Pannel from "../PannelTemplate.vue";
 import type {CascaderProps} from "ant-design-vue";
+import {ref} from "vue";
 
 const versions = ['0.0.1', '0.0.2']
 
@@ -90,6 +91,8 @@ const TestCases: CascaderProps['options'] = [
     label: '决策表',
   },
 ];
+
+const TestResultUrl = ref<string>('')
 
 </script>
 
