@@ -198,7 +198,7 @@ const onFinishFailed = (errorInfo: any) => {
           </a-card>
         </p>
         <p v-else-if="noTitleKey === 'result'">
-          <a-table/>
+          <a-table />
         </p>
         <p v-else-if="noTitleKey === 'visible'"></p>
       </a-card>
