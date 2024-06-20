@@ -80,20 +80,22 @@ const JsonParser = async (url: string): Promise<TableData> => {
     const r:Result =  (await axios.get(url)).data
     const testResults=r.testResults
     let ret=new TableData()
-    for(let i=1;i<=testResults.length;i=i+1)
+    let sum_j = 0
+    for(let i=0;i<testResults.length;i=i+1)
     {
-        let assertionResults = testResults[i-1].assertionResults
+        let assertionResults = testResults[i].assertionResults
         for(let j:number=1;j<=assertionResults.length;j=j+1)
         {
             let assertionResult = assertionResults[j-1]
             ret.data.push({
-                key: String(i),
+                key: String(sum_j+j),
                 title: assertionResult.title,
                 status: assertionResult.status,
                 duration: assertionResult.duration,
                 failureMessages: assertionResult.failureMessages
             })
         }
+        sum_j  = sum_j+assertionResults.length
     }
     return ret
 }
