@@ -198,17 +198,26 @@ const formState = reactive<FormState>({
   testCase: '',
 });
 const onFinish = (values: any) => {
-  // console.log('Success:', values);
-  TestResult.value?.data.forEach((each: any) => {
-    // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
-    if (each.title.includes(values.testCase[0] +'_' + values.testCase[1])) {
-      DataSrc.value?.data.push(each);
+      // console.log('Success:', values);
+      // console.log(props.testCases?.length);
+      if (props.testCases?.length! > 1) {
+        TestResult.value?.data.forEach((each: any) => {
+          // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
+          if (each.title.includes(values.testCase[0] + '_' + values.testCase[1])) {
+            DataSrc.value?.data.push(each);
+          }
+        })
+      } else {
+        TestResult.value?.data.forEach((each: any) => {
+          // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
+          DataSrc.value?.data.push(each);
+        })
+      }
+      setTimeout(() => {
+        visible.value = true
+      }, 1000);
     }
-  })
-  setTimeout(() => {
-    visible.value = true
-  }, 3000);
-};
+;
 const onFinishFailed = (errorInfo: any) => {
   // console.log('Failed:', errorInfo);
   visible.value = false
