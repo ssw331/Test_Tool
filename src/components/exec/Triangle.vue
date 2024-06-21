@@ -7,7 +7,9 @@ const versions = ['0.0.1', '0.0.2']
 </script>
 
 <template>
-  <pannel problem="三角形" :versions="versions"></pannel>
+  <Suspense>
+    <pannel problem="三角形" :versions="versions"></pannel>
+  </Suspense>
 </template>
 
 <style scoped>

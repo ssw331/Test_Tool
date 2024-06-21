@@ -5,7 +5,9 @@ import PannelTemplate from "../PannelTemplate.vue";
 </script>
 
 <template>
-  <pannel-template problem="1"/>
+  <Suspense>
+    <pannel-template problem="1"/>
+  </Suspense>
 </template>
 
 <style scoped>
