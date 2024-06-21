@@ -31,6 +31,8 @@ export function calendar(year: number, month: number, day: number): string {
         day = 1
         month = 1
         year = year + 1
+    } else {
+        day ++
     }
 
     return year + '/' + month + '/' + day

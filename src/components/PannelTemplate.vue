@@ -20,6 +20,7 @@ interface AssertionResult {
   "duration": number,
   "failureMessages": string[]
 }
+
 interface TestResult {
   "assertionResults": AssertionResult[],
   "startTime": number,
@@ -28,8 +29,8 @@ interface TestResult {
   "message": string,
   "name": string
 }
-interface Result
-{
+
+interface Result {
   "numTotalTestSuites": number,
   "numPassedTestSuites": number,
   "numFailedTestSuites": number,
@@ -43,64 +44,66 @@ interface Result
   "success": boolean,
   "testResults": TestResult[]
 }
-interface Column{
-  title:string,
-  key:string,
-  dataIndex?:string
+
+interface Column {
+  title: string,
+  key: string,
+  dataIndex?: string
 }
-const Columns:Column[]=[
+
+const Columns: Column[] = [
   {
-    title:"title",
-    key:"title",
-    dataIndex:"title"
+    title: "title",
+    key: "title",
+    dataIndex: "title"
   },
   {
-    title:"status",
-    key:"status",
-    dataIndex:"status"
+    title: "status",
+    key: "status",
+    dataIndex: "status"
   },
   {
-    title:"duration",
-    key:"duration",
-    dataIndex:"duration"
+    title: "duration",
+    key: "duration",
+    dataIndex: "duration"
   },
   {
-    title:"failureMessages",
-    key:"failureMessages",
-    dataIndex:"failureMessages"
+    title: "failureMessages",
+    key: "failureMessages",
+    dataIndex: "failureMessages"
   }
 ]
-interface Data{
-  key:string,
-  title:string,
-  status:string,
-  duration:number,
-  failureMessages:string[]
+
+interface Data {
+  key: string,
+  title: string,
+  status: string,
+  duration: string,
+  failureMessages: string[]
 }
-class TableData{
+
+class TableData {
   columns = Columns;
-  data:Data[]=[]
+  data: Data[] = []
 }
-const JsonParser = async (url: string): Promise<TableData> => {
-  const r:Result =  (await axios.get(url)).data
-  const testResults=r.testResults
-  let ret=new TableData()
+
+const JsonParser = async (url: string, index: number): Promise<TableData> => {
+  const r: Result = (await axios.get(url)).data
+  const testResults = r.testResults
+  let ret = new TableData()
   let sum_j = 0
-  for(let i=0;i<testResults.length;i=i+1)
-  {
-    let assertionResults = testResults[i].assertionResults
-    for(let j:number=1;j<=assertionResults.length;j=j+1)
-    {
-      let assertionResult = assertionResults[j-1]
-      ret.data.push({
-        key: String(sum_j+j),
-        title: assertionResult.title,
-        status: assertionResult.status,
-        duration: assertionResult.duration,
-        failureMessages: assertionResult.failureMessages
-      })
-    }
-    sum_j  = sum_j+assertionResults.length
+  let assertionResults = testResults[index].assertionResults
+
+  for (let j: number = 1; j <= assertionResults.length; j = j + 1) {
+    let assertionResult = assertionResults[j - 1]
+    ret.data.push({
+      key: String(sum_j + j),
+      title: assertionResult.title,
+      status: assertionResult.status,
+      duration: assertionResult.duration + 'ms',
+      failureMessages: assertionResult.failureMessages
+    })
+    sum_j = sum_j + assertionResults.length
   }
   return ret
 }
@@ -114,22 +117,25 @@ let code = `function sum(a : number, b : number)
 `
 
 const props = defineProps({
-  testResultUrl: String,
+  testResultIndex: Number,
   versions: Array,
   code: String,
   testCases: Array,
 })
 
-const TestResult = ref<TableData>(await JsonParser(<string>props.testResultUrl))
 
+const TestResult = ref<TableData>(await JsonParser("../src/js-report.json", <number>props.testResultIndex))
+const DataSrc = ref<TableData>({
+  data: [],
+  columns: TestResult.value.columns,
+})
 
-// const testResult = ref<TaskResult>()
 
 let visible = ref<boolean>(false)
 
 const loading = ref<boolean>(false)
 const enterLoading = () => {
-  console.log(loading.value)
+  // console.log(loading.value)
   loading.value = true
   setTimeout(() => {
     loading.value = false;
@@ -178,7 +184,7 @@ const TestCases: CascaderProps['options'] = [
 ];
 const noTitleKey = ref('problem');
 const onTabChange = (value: string, type: string) => {
-  console.log(value, type);
+  // console.log(value, type);
   if (type === 'noTitleKey') {
     noTitleKey.value = value;
   }
@@ -192,13 +198,19 @@ const formState = reactive<FormState>({
   testCase: '',
 });
 const onFinish = (values: any) => {
-  console.log('Success:', values);
+  // console.log('Success:', values);
+  TestResult.value?.data.forEach((each: any) => {
+    // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
+    if (each.title.includes(values.testCase[0] +'_' + values.testCase[1])) {
+      DataSrc.value?.data.push(each);
+    }
+  })
   setTimeout(() => {
     visible.value = true
   }, 3000);
 };
 const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
+  // console.log('Failed:', errorInfo);
   visible.value = false
 };
 </script>
@@ -295,7 +307,7 @@ const onFinishFailed = (errorInfo: any) => {
           </a-card>
         </p>
         <p v-else-if="noTitleKey === 'result'">
-            <a-table :data-source="TestResult.data" :columns="TestResult.columns"/>
+          <a-table :data-source="DataSrc.data" :columns="TestResult.columns"/>
         </p>
         <p v-else-if="noTitleKey === 'visible'"></p>
       </a-card>

@@ -49,30 +49,6 @@ const code = `function calculateTotalFee(monthlyMinutes: number, overduePayments
 
 const TestCases: CascaderProps['options'] = [
   {
-    value: 'boundary',
-    label: '边界值',
-    children: [
-      {
-        value: 'robust',
-        label: '健壮边界值',
-      },
-    ],
-  },
-  {
-    value: 'equivalent_class',
-    label: '等价类',
-    children: [
-      {
-        value: 'strong_robust',
-        label: '强健壮等价类',
-      },
-    ],
-  },
-  {
-    value: 'decision_table',
-    label: '决策表',
-  },
-  {
     value: 'total',
     label: '总测试用例',
   },
@@ -87,11 +63,13 @@ const tableData = ref([
   {range: '180 < 通话时间 ≤ 300', maxOverdue: 3, discount: '2.5%'},
   {range: '300 < 通话时间', maxOverdue: 6, discount: '3.0%'},
 ]);
+
+const TestResultIndex = ref<number>(1)
 </script>
 
 <template>
   <Suspense>
-    <pannel problem="电信收费" :versions="versions" :code="code" :test-cases="TestCases">
+    <pannel problem="电信收费" :versions="versions" :code="code" :test-cases="TestCases" :test-result-index="TestResultIndex">
       <template #header>
         Question 03. 电信收费问题
       </template>

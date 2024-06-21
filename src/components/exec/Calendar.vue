@@ -92,13 +92,13 @@ const TestCases: CascaderProps['options'] = [
   },
 ];
 
-const TestResultUrl = ref<string>("../src/js-report.json")
+const TestResultIndex = ref<number>(0)
 
 </script>
 
 <template>
   <Suspense>
-    <pannel problem="万年历" :versions="versions" :code="code" :test-cases="TestCases" :test-result-url="TestResultUrl">
+    <pannel problem="万年历" :versions="versions" :code="code" :test-cases="TestCases" :test-result-index="TestResultIndex">
     <template #header>
       Question 02. 万年历问题
     </template>
