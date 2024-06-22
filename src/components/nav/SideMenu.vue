@@ -4,7 +4,7 @@ import type {ItemType, MenuProps} from "ant-design-vue";
 import {reactive, ref, VueElement, watch, h} from "vue";
 import {useRouter} from "vue-router";
 
-const selectedKeys = ref<string[]>(['/exec/triangle'])
+const selectedKeys = ref<string[]>([''])
 const openKeys = ref<string[]>(['/exec'])
 
 // let NavActive = ref('')

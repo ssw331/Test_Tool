@@ -157,10 +157,10 @@ const tabListNoTitle = [
     key: 'result',
     tab: '测试结果',
   },
-  {
-    key: 'visible',
-    tab: '可视化',
-  },
+  // {
+  //   key: 'visible',
+  //   tab: '可视化',
+  // },
 ];
 const TestCases: CascaderProps['options'] = [
   {
@@ -318,7 +318,7 @@ const onFinishFailed = (errorInfo: any) => {
         <p v-else-if="noTitleKey === 'result'">
           <a-table :data-source="DataSrc.data" :columns="TestResult.columns"/>
         </p>
-        <p v-else-if="noTitleKey === 'visible'"></p>
+<!--        <p v-else-if="noTitleKey === 'visible'"></p>-->
       </a-card>
     </a-col>
     <a-col :span="8">
