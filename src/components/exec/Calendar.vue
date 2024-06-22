@@ -45,7 +45,7 @@ const code = `function calendar(year: number, month: number, day: number): strin
     return year + '-' + month + '-' + day
 }`
 
-const TestCases: CascaderProps['options'] = [
+const TestCases: CascaderProps['options'] = [  // 这个需要和你的每个测试的title中的测试类型一致，即title中需要有{parent}_{children}出现，否则无法匹配
   {
     value: 'boundary',
     label: '边界值',
@@ -92,7 +92,7 @@ const TestCases: CascaderProps['options'] = [
   },
 ];
 
-const TestResultIndex = ref<number>(0)
+const TestResultIndex = ref<number>(0)  // 这个索引对应测试结果报告json中自己的测试结果的索引
 
 </script>
 

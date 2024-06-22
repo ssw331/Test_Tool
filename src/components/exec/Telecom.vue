@@ -5,7 +5,7 @@ import Pannel from "../PannelTemplate.vue";
 import type {CascaderProps} from "ant-design-vue";
 import {ref} from "vue";
 
-const versions = ['0.0.1', '0.0.2']
+const versions = ['0.0.1']
 
 const code = `function calculateTotalFee(monthlyMinutes: number, overduePayments: number): number {
     // 基本月租费
