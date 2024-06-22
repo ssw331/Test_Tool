@@ -31,17 +31,9 @@ const TestCases: CascaderProps['options'] = [
     label: '边界值',
     children: [
       {
-        value: 'foundational',
-        label: '基本边界值',
-      },
-      {
         value: 'robust',
-        label: '健壮边界值',
-      },
-      {
-        value: 'worst',
-        label: '最坏边界值',
-      },
+        label: '强壮边界值',
+      }
     ],
   },
   {
@@ -49,26 +41,14 @@ const TestCases: CascaderProps['options'] = [
     label: '等价类',
     children: [
       {
-        value: 'weak_normal',
-        label: '弱一般等价类',
-      },
-      {
-        value: 'strong_normal',
-        label: '强一般等价类',
-      },
-      {
         value: 'weak_robust',
         label: '弱健壮等价类',
-      },
-      {
-        value: 'strong_robust',
-        label: '强健壮等价类',
-      },
+      }
     ],
   },
 ];
 
-const TestResultIndex = ref<number>(0);
+const TestResultIndex = ref<number>(2);
 
 </script>
 
