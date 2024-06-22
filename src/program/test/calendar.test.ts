@@ -14,7 +14,7 @@ results = {};
 await new Promise((resolve, reject) => {
     classes.forEach((e) => {
         const res: any[] = []
-        fs.createReadStream('src/testCase/calendar_' + "boundary_foundational" + '.csv')
+        fs.createReadStream('src/testCase/calendar_' + e + '.csv')
             .pipe(csv({headers: ['Id', 'Y', 'M', 'D', '输出'], skipLines: 1}))
             .on('data', (data: any) => res.push(data))
             .on('end', resolve)
