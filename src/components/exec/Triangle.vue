@@ -48,7 +48,7 @@ const TestCases: CascaderProps['options'] = [
   },
 ];
 
-const TestResultIndex = ref<number>(2);
+const TestResultIndex = ref<number>(3);
 
 </script>
 

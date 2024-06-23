@@ -31,6 +31,7 @@ const items: ItemType[] = reactive([
     getItem('三角形', '/exec/triangle'),
     getItem('万年历', '/exec/calender'),
     getItem('电信收费', '/exec/telecom'),
+    getItem('电脑销售', '/exec/sale'),
   ]),
 ])
 

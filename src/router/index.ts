@@ -6,6 +6,7 @@ import Telecom from "../components/exec/Telecom.vue";
 // import Pannel from "../components/PannelTemplate.vue";
 import Pannel from "../views/Pannel.vue";
 import DefaultOne from "../components/exec/DefaultOne.vue";
+import Sale from "../components/exec/Sale.vue";
 
 const routes = [
     {
@@ -37,6 +38,11 @@ const routes = [
                 path: 'telecom',
                 name: 'Telecom',
                 component: Telecom,
+            },
+            {
+                path:'sale',
+                name:'Sale',
+                component:Sale
             }
         ]
     }

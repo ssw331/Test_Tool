@@ -64,7 +64,7 @@ const tableData = ref([
   {range: '300 < 通话时间', maxOverdue: 6, discount: '3.0%'},
 ]);
 
-const TestResultIndex = ref<number>(1)
+const TestResultIndex = ref<number>(2)
 </script>
 
 <template>
