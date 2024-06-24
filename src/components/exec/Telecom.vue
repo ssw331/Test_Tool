@@ -72,6 +72,10 @@ const TestCases: CascaderProps['options'] = [
     value: 'decision',
     label: '决策表',
   },
+  {
+    value: 'total',
+    label: '总测试用例',
+  },
 ];
 
 
