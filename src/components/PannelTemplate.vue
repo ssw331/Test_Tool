@@ -1,11 +1,40 @@
 <script setup lang="ts">
 
-import {reactive, ref} from "vue";
+import {onUpdated, reactive, ref, watch} from "vue";
 import {NCode, NConfigProvider} from 'naive-ui'
 import hljs from 'highlight.js/lib/core'
 import typescript from 'highlight.js/lib/languages/typescript'
 import type {CascaderProps} from 'ant-design-vue';
 import axios from 'axios'
+import * as echarts from 'echarts/core'
+import {
+  BarSeriesOption,
+  ComposeOption, DatasetComponentOption, GridComponentOption,
+  LineSeriesOption,
+  PieSeriesOption,
+  TitleComponentOption,
+  TooltipComponentOption
+} from "echarts";
+import {BarChart, LineChart, PieChart} from "echarts/charts";
+import {
+  DatasetComponent,
+  GridComponent, LegendComponent,
+  TitleComponent, ToolboxComponent,
+  TooltipComponent,
+  TransformComponent
+} from "echarts/components";
+import {LabelLayout, UniversalTransition} from "echarts/features";
+import {CanvasRenderer} from "echarts/renderers";
+
+export type ECOption = ComposeOption<
+    | LineSeriesOption
+    | BarSeriesOption
+    | PieSeriesOption
+    | TitleComponentOption
+    | TooltipComponentOption
+    | GridComponentOption
+    | DatasetComponentOption
+>
 
 interface FormState {
   programVer: string;
@@ -87,6 +116,9 @@ class TableData {
   data: Data[] = []
 }
 
+const passedCnt = ref<number>(0)
+const notPassedCnt = ref<number>(0)
+
 const JsonParser = async (url: string, index: number): Promise<TableData> => {
   const r: Result = (await axios.get(url)).data
   const testResults = r.testResults
@@ -110,6 +142,22 @@ const JsonParser = async (url: string, index: number): Promise<TableData> => {
 }
 
 hljs.registerLanguage('typescript', typescript)
+
+echarts.use([
+  LineChart,
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  DatasetComponent,
+  TransformComponent,
+  LabelLayout,
+  UniversalTransition,
+  CanvasRenderer,
+  LegendComponent,
+  PieChart,
+  ToolboxComponent,
+  BarChart
+])
 
 let code = `function sum(a : number, b : number)
 {
@@ -158,10 +206,10 @@ const tabListNoTitle = [
     key: 'result',
     tab: '测试结果',
   },
-  // {
-  //   key: 'visible',
-  //   tab: '可视化',
-  // },
+  {
+    key: 'visible',
+    tab: '可视化',
+  },
 ];
 const TestCases: CascaderProps['options'] = [
   {
@@ -190,6 +238,17 @@ const onTabChange = (value: string, type: string) => {
     noTitleKey.value = value;
   }
 };
+
+watch(() => noTitleKey.value, (value, oldValue) => {
+  if (value === 'visible' && oldValue !== 'visible') {
+    // 加载测试结果饼状图
+    const eChart = echarts.init(document.getElementById('cha'))
+    eChart.setOption(echartOption)
+  }
+}, {
+  flush: 'post'
+})
+
 const formItemLayout = {
   labelCol: {span: 6},
   wrapperCol: {span: 14},
@@ -198,30 +257,82 @@ const formState = reactive<FormState>({
   programVer: '',
   testCase: '',
 });
-const onFinish = async (values: any) => {
-      // console.log('Success:', values);
-      // console.log(props.testResultIndex);
-      TestResult.value = await JsonParser("../src/js-report-" + values.programVer + ".json", <number>props.testResultIndex)
-      if (props.testCases?.length! > 1) {
-        TestResult.value?.data.forEach((each: any) => {
-          // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
-          if (values.testCase.length > 1 && each.title.includes(values.testCase[0] + '_' + values.testCase[1])) {
-            DataSrc.value?.data.push(each);
-          } else if (values.testCase.length === 1 && each.title.includes(values.testCase[0])) {
-            DataSrc.value?.data.push(each);
-          }
-        })
-      } else {
-        TestResult.value?.data.forEach((each: any) => {
-          // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
-          DataSrc.value?.data.push(each);
-        })
-      }
-      setTimeout(() => {
-        visible.value = true
-      }, 1000);
+
+//测试结果饼状图
+let echartOption: ECOption = {
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    top: '5%',
+    left: 'center'
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: '40',
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
+      data: [
+        {value: notPassedCnt.value, name: 'Not Passed'},
+        {value: passedCnt.value, name: 'Passed'},
+      ]
     }
-;
+  ]
+}
+
+const onFinish = async (values: any) => {
+  // console.log('Success:', values);
+  // console.log(props.testResultIndex);
+  TestResult.value = await JsonParser("../src/js-report-" + values.programVer + ".json", <number>props.testResultIndex)
+  if (props.testCases?.length! > 1) {
+    TestResult.value?.data.forEach((each: any) => {
+      // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
+      if (values.testCase.length > 1 && each.title.includes(values.testCase[0] + '_' + values.testCase[1])) {
+        DataSrc.value?.data.push(each);
+      } else if (values.testCase.length === 1 && each.title.includes(values.testCase[0])) {
+        DataSrc.value?.data.push(each);
+      }
+    })
+  } else {
+    TestResult.value?.data.forEach((each: any) => {
+      // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
+      DataSrc.value?.data.push(each);
+    })
+  }
+  DataSrc.value?.data.forEach((each: Data) => {
+    console.log(each.status);
+    if (each.status === 'failed') {
+      notPassedCnt.value++
+    } else {
+      passedCnt.value++
+    }
+    echartOption.series[0].data[1].value = passedCnt.value;
+    echartOption.series[0].data[0].value = notPassedCnt.value;
+  })
+  setTimeout(() => {
+    visible.value = true
+  }, 1000);
+};
 const onFinishFailed = (errorInfo: any) => {
   // console.log('Failed:', errorInfo);
   visible.value = false
@@ -322,7 +433,14 @@ const onFinishFailed = (errorInfo: any) => {
         <p v-else-if="noTitleKey === 'result'">
           <a-table :data-source="DataSrc.data" :columns="TestResult.columns"/>
         </p>
-        <!--        <p v-else-if="noTitleKey === 'visible'"></p>-->
+        <p v-else-if="noTitleKey === 'visible'">
+          <a-card :bordered="false">
+            <template #title>
+                测试用例结果
+            </template>
+            <div id="cha" class="chart"></div>
+          </a-card>
+        </p>
       </a-card>
     </a-col>
     <a-col :span="8">
@@ -381,5 +499,9 @@ const onFinishFailed = (errorInfo: any) => {
 </template>
 
 <style scoped>
-
+.chart {
+  font-size: 1rem;
+  width: 42rem;
+  height: 20rem;
+}
 </style>
