@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { telecom } from "../telecom0.0.2.ts";
+import { telecom } from "../telecom0.0.1.ts";
 import fs from "fs";
 import csv from "csv-parser";
 

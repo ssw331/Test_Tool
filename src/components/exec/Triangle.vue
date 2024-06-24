@@ -46,6 +46,10 @@ const TestCases: CascaderProps['options'] = [
       }
     ],
   },
+  {
+    value: 'total',
+    label: '总测试用例',
+  },
 ];
 
 const TestResultIndex = ref<number>(3);
