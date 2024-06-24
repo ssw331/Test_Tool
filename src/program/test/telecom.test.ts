@@ -3,7 +3,7 @@ import { telecom } from "../telecom0.0.2.ts";
 import fs from "fs";
 import csv from "csv-parser";
 
-const classes: string[] = ["boundary_robust", "equivalent_class_strong_robust", "decision"];
+const classes: string[] = ["boundary_robust", "equivalent_class_strong_robust", "decision","total"];
 
 let results: { [key: string]: any[] } = {};
 

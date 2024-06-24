@@ -90,6 +90,10 @@ const TestCases: CascaderProps['options'] = [  // 这个需要和你的每个测
     value: 'decision',
     label: '决策表',
   },
+  {
+    value: 'total',
+    label: '总测试用例',
+  },
 ];
 
 const TestResultIndex = ref<number>(0)  // 这个索引对应测试结果报告json中自己的测试结果的索引
