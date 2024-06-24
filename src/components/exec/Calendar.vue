@@ -87,7 +87,7 @@ const TestCases: CascaderProps['options'] = [  // 这个需要和你的每个测
     ],
   },
   {
-    value: 'decision_table',
+    value: 'decision',
     label: '决策表',
   },
 ];

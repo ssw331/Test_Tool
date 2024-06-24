@@ -205,7 +205,9 @@ const onFinish = async (values: any) => {
       if (props.testCases?.length! > 1) {
         TestResult.value?.data.forEach((each: any) => {
           // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
-          if (each.title.includes(values.testCase[0] + '_' + values.testCase[1])) {
+          if (values.testCase.length > 1 && each.title.includes(values.testCase[0] + '_' + values.testCase[1])) {
+            DataSrc.value?.data.push(each);
+          } else if (values.testCase.length === 1 && each.title.includes(values.testCase[0])) {
             DataSrc.value?.data.push(each);
           }
         })

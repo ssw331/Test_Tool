@@ -1,7 +1,7 @@
 import {expect, test} from "vitest";
 import fs from "fs";
 import csv from "csv-parser";
-import {calendar} from "../calendar0.0.1.ts";
+import {calendar} from "../calendar0.0.2.ts";
 
 const classes: string[] = ["boundary_foundational", "boundary_robust", "boundary_worst",
     "equivalent_class_weak_normal", "equivalent_class_strong_normal", "equivalent_class_weak_robust",

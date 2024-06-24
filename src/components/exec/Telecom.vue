@@ -5,7 +5,7 @@ import Pannel from "../PannelTemplate.vue";
 import type {CascaderProps} from "ant-design-vue";
 import {ref} from "vue";
 
-const versions = ['0.0.1']
+const versions = ['0.0.1', '0.0.2']
 
 const code = `function calculateTotalFee(monthlyMinutes: number, overduePayments: number): number {
     // 基本月租费
@@ -49,8 +49,28 @@ const code = `function calculateTotalFee(monthlyMinutes: number, overduePayments
 
 const TestCases: CascaderProps['options'] = [
   {
-    value: 'total',
-    label: '总测试用例',
+    value: 'boundary',
+    label: '边界值',
+    children: [
+      {
+        value: 'robust',
+        label: '健壮边界值',
+      }
+    ],
+  },
+  {
+    value: 'equivalent_class',
+    label: '等价类',
+    children: [
+      {
+        value: 'strong_robust',
+        label: '强健壮等价类',
+      }
+    ],
+  },
+  {
+    value: 'decision',
+    label: '决策表',
   },
 ];
 
