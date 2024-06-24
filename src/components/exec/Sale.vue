@@ -55,8 +55,52 @@ const calculate = (computerSaleCount:number,monitorSaleCount:number,peripheralSa
 const TestCases: CascaderProps['options'] = [
   {
     value: 'boundary',
-    label: '边界值分析法',
+    label: '边界值',
+    children: [
+      {
+        value: 'foundational',
+        label: '基本边界值',
+      },
+      {
+        value: 'robust',
+        label: '健壮边界值',
+      },
+      {
+        value: 'worst',
+        label: '最坏边界值',
+      },
+    ],
   },
+  {
+    value: 'equivalent_class',
+    label: '等价类',
+    children: [
+      {
+        value: 'weak_normal',
+        label: '弱一般等价类',
+      },
+      {
+        value: 'strong_normal',
+        label: '强一般等价类',
+      },
+      {
+        value: 'weak_robust',
+        label: '弱健壮等价类',
+      },
+      {
+        value: 'strong_robust',
+        label: '强健壮等价类',
+      },
+    ],
+  },
+  {
+    value: 'decision',
+    label: '决策表',
+  },
+  {
+    value: 'total',
+    label: '综合测试用例'
+  }
 ];
 
 const TestResultIndex = ref<number>(1);

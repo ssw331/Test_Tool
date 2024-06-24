@@ -7,7 +7,7 @@ const TestCase:any[] = [];
 
 // 读取CSV文件并解析数据
 await new Promise((resolve, reject) => {
-    fs.createReadStream('src/testCase/sale.csv')
+    fs.createReadStream('src/testCase/sale_total.csv')
         .pipe(csv({ headers: ["No","Computer Sales","Monitor Sales","Peripherals Sales","Result"], skipLines: 1 }))
         .on('data', (data: any) => TestCase.push(data))
         .on('end', resolve)
