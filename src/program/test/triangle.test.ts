@@ -1,7 +1,7 @@
 import { expect, test } from "vitest";
 import fs from "fs";
 import csv from "csv-parser";
-import { triangleType } from "../triangle0.0.2.ts";
+import { triangleType } from "../triangle0.0.1.ts";
 
 const classes: string[] = ["boundary_robust", "equivalent_class_weak_robust"];
 

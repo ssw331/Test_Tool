@@ -90,6 +90,7 @@ class TableData {
 const JsonParser = async (url: string, index: number): Promise<TableData> => {
   const r: Result = (await axios.get(url)).data
   const testResults = r.testResults
+  // console.log("testResults", url)
   let ret = new TableData()
   let sum_j = 0
   let assertionResults = testResults[index].assertionResults
@@ -124,7 +125,7 @@ const props = defineProps({
 })
 
 
-const TestResult = ref<TableData>(await JsonParser("../src/js-report.json", <number>props.testResultIndex))
+const TestResult = ref<TableData>(await JsonParser("../src/js-report-" + "0.0.1" + ".json", <number>props.testResultIndex))
 const DataSrc = ref<TableData>({
   data: [],
   columns: TestResult.value.columns,
@@ -197,9 +198,10 @@ const formState = reactive<FormState>({
   programVer: '',
   testCase: '',
 });
-const onFinish = (values: any) => {
+const onFinish = async (values: any) => {
       // console.log('Success:', values);
-      // console.log(props.testCases?.length);
+      // console.log(props.testResultIndex);
+      TestResult.value = await JsonParser("../src/js-report-" + values.programVer + ".json", <number>props.testResultIndex)
       if (props.testCases?.length! > 1) {
         TestResult.value?.data.forEach((each: any) => {
           // console.log(each.title.includes(values.testCase[0] +'_' + values.testCase[1]));
@@ -318,7 +320,7 @@ const onFinishFailed = (errorInfo: any) => {
         <p v-else-if="noTitleKey === 'result'">
           <a-table :data-source="DataSrc.data" :columns="TestResult.columns"/>
         </p>
-<!--        <p v-else-if="noTitleKey === 'visible'"></p>-->
+        <!--        <p v-else-if="noTitleKey === 'visible'"></p>-->
       </a-card>
     </a-col>
     <a-col :span="8">

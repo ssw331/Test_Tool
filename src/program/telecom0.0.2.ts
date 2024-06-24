@@ -6,13 +6,13 @@ export function telecom(monthlyMinutes: number, overduePayments: number): number
 
     // 通话时间段的最大容许不按时缴费次数和折扣率
     const discountRates = [
-        {maxMinutes: 60, maxOverdue: 1, discount: 0.01},
-        {maxMinutes: 120, maxOverdue: 2, discount: 0.015},
-        {maxMinutes: 180, maxOverdue: 3, discount: 0.02},
-        {maxMinutes: 300, maxOverdue: 3, discount: 0.025},
-        {maxMinutes: 43000, maxOverdue: 6, discount: 0.03}
+        { maxMinutes: 60, maxOverdue: 1, discount: 0.01 },
+        { maxMinutes: 120, maxOverdue: 2, discount: 0.015 },
+        { maxMinutes: 180, maxOverdue: 3, discount: 0.02 },
+        { maxMinutes: 300, maxOverdue: 3, discount: 0.025 },
+        { maxMinutes: 43000, maxOverdue: 6, discount: 0.03 }
     ];
-    if (monthlyMinutes >= 43000 || monthlyMinutes < 0 || overduePayments < 0 || overduePayments > 11) {
+    if(monthlyMinutes>43000||monthlyMinutes<0||overduePayments<0||overduePayments>11){
         return -1;
     }
     // 计算实际通话费
@@ -21,7 +21,7 @@ export function telecom(monthlyMinutes: number, overduePayments: number): number
 
     // 确定折扣率
     for (const rate of discountRates) {
-        if (monthlyMinutes < rate.maxMinutes) {
+        if (monthlyMinutes <= rate.maxMinutes) {
             if (overduePayments <= rate.maxOverdue) {
                 discount = rate.discount;
             }
