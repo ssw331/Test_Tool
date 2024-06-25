@@ -8,7 +8,7 @@ export default defineConfig({
     test: {
         reporters: ['html', 'json'],
         outputFile: {
-            json: 'js-report-0.0.2.json'
+            json: 'js-report-0.0.1.json'
         },
         coverage: {
             reporter: ['html']

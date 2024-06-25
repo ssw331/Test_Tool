@@ -1,9 +1,9 @@
 No,Computer Sales,Monitor Sales,Peripherals Sales,Result
 1,2,5,3,33.5
-2,20,30,5,243.74
+2,20,30,5,243.75
 3,30,40,20,570
 4,10,10,2,64
 5,50,20,10,460
-6,0,10,5,The sale count of monitor cant be lower than 1
+6,0,10,5,The sale count of computer cant be lower than 1
 7,10,85,10,The sale count of monitor cant be higher than 80
 8,10,10,100,The sale count of peripheral device cant be higher than 90
