@@ -19,3 +19,12 @@ No,Computer Sales,Monitor Sales,Peripherals Sales,Result,
 18,35,40,91,The sale count of peripheral device cant be higher than 90,max+
 19,35,40,45,820,normal
 20,-1,40,45,The Month's Total Sale,special
+21,10,10,2,64
+22,30,40,20,570
+23,2,5,3,33.5
+24,30,40,20,570
+25,10,10,2,64
+26,50,20,10,460
+27,0,10,5,The sale count of computer cant be lower than 1
+28,10,85,10,The sale count of monitor cant be higher than 80
+29,10,10,100,The sale count of peripheral device cant be higher than 90

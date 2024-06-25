@@ -76,20 +76,8 @@ const TestCases: CascaderProps['options'] = [
     label: '等价类',
     children: [
       {
-        value: 'weak_normal',
-        label: '弱一般等价类',
-      },
-      {
         value: 'strong_normal',
         label: '强一般等价类',
-      },
-      {
-        value: 'weak_robust',
-        label: '弱健壮等价类',
-      },
-      {
-        value: 'strong_robust',
-        label: '强健壮等价类',
       },
     ],
   },
